@@ -6,13 +6,13 @@ import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
-import com.csci448.focushack.ui.settingsscreen.SettingsScreen
+import com.csci448.focushack.ui.credits.CreditsScreen
+import com.csci448.focushack.ui.home.HomeScreen
 
-
-object SettingsScreenSpec : IScreenSpec {
-    override val route = "settings"
+object CreditScreenSpec : IScreenSpec {
+    override val route = "credits"
     override val arguments: List<NamedNavArgument> = emptyList()
-    override val title = "Settings"
+    override val title = "Credits"
 
     @Composable
     override fun Content(
@@ -20,7 +20,7 @@ object SettingsScreenSpec : IScreenSpec {
         navController: NavController,
         modifier: Modifier
     ) {
-        SettingsScreen()
+        CreditsScreen()
     }
 
     @Composable

@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.createSavedStateHandle
 import androidx.lifecycle.viewmodel.CreationExtras
 import androidx.lifecycle.viewmodel.MutableCreationExtras
+import com.csci448.focushack.data.repos.TaskRepo
 
 class FocusHackViewModelFactory : ViewModelProvider.Factory {
     companion object {
@@ -29,6 +30,14 @@ class FocusHackViewModelFactory : ViewModelProvider.Factory {
                     val context = checkNotNull(extras[CONTEXT_KEY])
                     val savedStateHandle = extras.createSavedStateHandle()
                     TaskViewModel(
+                        taskRepo = TaskRepo.getInstance(context),
+                        savedStateHandle = savedStateHandle
+                    )
+                }
+                isAssignableFrom(ConsequencesViewModel::class.java) ->{
+                    val context = checkNotNull(extras[CONTEXT_KEY])
+                    val savedStateHandle = extras.createSavedStateHandle()
+                    ConsequencesViewModel(
                         savedStateHandle = savedStateHandle
                     )
                 }

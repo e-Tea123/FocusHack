@@ -1,7 +1,12 @@
 package com.csci448.focushack.ui.navigation.specs
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -33,6 +38,12 @@ sealed interface IScreenSpec {
             val route = navBackStackEntry?.destination?.route ?: ""
             allScreens[route]?.TopAppBarContent(navHost, navBackStackEntry)
         }
+
+        @Composable
+        fun BottomBar(navBackStackEntry: NavBackStackEntry?, navHost: NavHostController){
+            val route = navBackStackEntry?.destination?.route ?: ""
+            allScreens[route]?.BottomAppBarContent(navHost, navBackStackEntry)
+        }
     }
 
     @Composable
@@ -55,8 +66,44 @@ sealed interface IScreenSpec {
         } else {
             {}
         },
-            title = {Text(title)}
+            title = {Text(title)},
+            actions = {TopAppBarActions(navController, navBackStackEntry)}
         )
     }
 
+    @Composable
+    private fun BottomAppBarContent(navController: NavHostController, navBackStackEntry: NavBackStackEntry?) {
+        BottomAppBar {
+            Row(horizontalArrangement = Arrangement.SpaceEvenly,
+                modifier = Modifier.fillMaxWidth()) {
+                IconButton(onClick = {}) {
+                    Image(
+                        painterResource(R.drawable.goal_icon),
+                        "Goal Icon"
+                    )
+                }
+                IconButton(onClick = {}) {
+                    Image(
+                        painterResource(R.drawable.timer_icon),
+                        "Timer Icon"
+                    )
+                }
+                IconButton(onClick = {}) {
+                    Image(
+                        painterResource(R.drawable.settings_icon),
+                        "Settings Icon"
+                    )
+                }
+                IconButton(onClick = {navController.navigate(CreditScreenSpec.route)}) {
+                    Image(
+                        painterResource(R.drawable.credit_icon),
+                        "Credits Icon"
+                    )
+                }
+            }
+        }
+    }
+
+    @Composable
+    abstract fun TopAppBarActions(navController: NavHostController, navBackStackEntry: NavBackStackEntry?)
 }

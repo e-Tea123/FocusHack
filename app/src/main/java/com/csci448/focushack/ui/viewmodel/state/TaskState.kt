@@ -1,13 +1,15 @@
 package com.csci448.focushack.ui.viewmodel.state
 
+import androidx.compose.runtime.mutableStateListOf
 import com.csci448.focushack.data.entities.TaskData
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class TaskState(val taskList: MutableList<TaskData> = mutableListOf(
-    TaskData("Test Name",
-        "test goal",
-        "test desc",
-        1,
-        false)
-)) : FocusHackState
+data class TaskState(val taskList: List<TaskData> = mutableStateListOf(),
+    val newTask: TaskData = TaskData("",
+        "",
+        "",
+        0,
+        false,
+        0L)
+) : FocusHackState

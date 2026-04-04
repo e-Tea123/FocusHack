@@ -1,12 +1,18 @@
 package com.csci448.focushack.ui.navigation.specs
 
+import androidx.compose.foundation.Image
+import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
+import androidx.navigation.NavHostController
+import com.csci448.focushack.R
+import com.csci448.focushack.ui.newtask.NewTaskScreen
 import com.csci448.focushack.ui.tasklist.TaskScreen
 import com.csci448.focushack.ui.viewmodel.FocusHackViewModelFactory
 import com.csci448.focushack.ui.viewmodel.TaskViewModel
@@ -37,8 +43,19 @@ data object TaskListScreenSpec : IScreenSpec {
 
         val (state, dispatcher, effects) = viewModel.use(navBackStackEntry)
 
-        TaskScreen(state.taskList,
+        TaskScreen(taskList = state.taskList,
             checkClicked = {bool, id-> dispatcher.invoke(TaskIntent.TaskComplete(bool, id))},
         )
+    }
+
+    @Composable
+    override fun TopAppBarActions(
+        navController: NavHostController,
+        navBackStackEntry: NavBackStackEntry?
+    ) {
+        IconButton(onClick = {navController.navigate(NewTaskScreenSpec.route)}) {
+            Image(painter = painterResource(R.drawable.add_icon),
+                "Add Icon")
+        }
     }
 }

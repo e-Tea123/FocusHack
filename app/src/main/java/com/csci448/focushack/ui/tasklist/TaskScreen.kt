@@ -9,6 +9,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.csci448.focushack.data.entities.TaskData
 import com.csci448.focushack.ui.tasklist.components.TaskBlock
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.TextField
 
 @Composable
 fun TaskScreen(taskList: List<TaskData>,
@@ -19,8 +20,8 @@ fun TaskScreen(taskList: List<TaskData>,
                 goal = item.goal,
                 description = item.taskDescription,
                 finished = item.finished,
-                onCheckChanged = {bool-> checkClicked(bool, item.id)})
-            Log.d("CSCI448.TaskScreen", "composed, finished: ${item.finished}")
+                onCheckChanged = {bool-> checkClicked(bool, item.id)},
+                date = item.deadline)
         }
     }
 }
