@@ -11,6 +11,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.rememberNavController
+import com.csci448.focushack.ui.navigation.FocusHackNavHost
+import com.csci448.focushack.ui.navigation.FocusHackTopBar
 import com.csci448.focushack.ui.theme.FocusHackTheme
 
 class MainActivity : ComponentActivity() {
@@ -18,14 +21,15 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            FocusHackTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+            val navController = rememberNavController()
+            Scaffold(
+                modifier = Modifier.fillMaxSize(),
+                topBar = { FocusHackTopBar(navController) },
+                content = { innerPadding ->
+                    FocusHackNavHost(navController = navController,
+                        modifier = Modifier.padding(innerPadding))
                 }
-            }
+            )
         }
     }
 }

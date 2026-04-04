@@ -27,6 +27,7 @@ sealed interface IScreenSpec {
                 it.objectInstance?.route to it.objectInstance
             }
 
+
         @Composable
         fun TopBar(navBackStackEntry: NavBackStackEntry?, navHost: NavHostController){
             val route = navBackStackEntry?.destination?.route ?: ""

@@ -25,6 +25,13 @@ class FocusHackViewModelFactory : ViewModelProvider.Factory {
         with(modelClass) {
 
             when {
+                isAssignableFrom(TaskViewModel::class.java) -> {
+                    val context = checkNotNull(extras[CONTEXT_KEY])
+                    val savedStateHandle = extras.createSavedStateHandle()
+                    TaskViewModel(
+                        savedStateHandle = savedStateHandle
+                    )
+                }
 
                 else -> {
                     Log.e(LOG_TAG, "Unknown ViewModel: $modelClass")

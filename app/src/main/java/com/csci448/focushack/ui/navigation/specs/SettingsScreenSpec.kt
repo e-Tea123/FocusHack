@@ -5,12 +5,13 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
-import com.csci448.focushack.ui.home.HomeScreen
+import com.csci448.focushack.ui.settingsscreen.SettingsScreen
 
-data object HomeScreenSpec : IScreenSpec {
-    override val route = "home"
+
+object SettingsScreenSpecdata : IScreenSpec {
+    override val route = "settings"
     override val arguments: List<NamedNavArgument> = emptyList()
-    override val title = "Home"
+    override val title = "Settings"
 
     @Composable
     override fun Content(
@@ -18,9 +19,6 @@ data object HomeScreenSpec : IScreenSpec {
         navController: NavController,
         modifier: Modifier
     ) {
-        HomeScreen(
-            taskButtonClicked = {navController.navigate(TaskListScreenSpec.route)},
-            focusButtonClicked = {}
-        )
+        SettingsScreen()
     }
 }
