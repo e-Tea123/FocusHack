@@ -40,5 +40,35 @@ fun ConsequencesScreen(onDetailClick:(String, Int)->Unit){
                 "Clickable arrow",
                 modifier = Modifier.height(24.dp).width(24.dp))
         }
+
+        Row(modifier = Modifier.fillMaxWidth()
+            .clickable(onClick = {onDetailClick(
+                "Message a friend of your inadequacy", 2)}
+            ),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceEvenly){
+
+            Text("Phone a Friend",
+                textAlign = TextAlign.Start,
+                fontSize = 24.sp)
+            Image(painterResource(R.drawable.arrow_icon),
+                "Clickable arrow",
+                modifier = Modifier.height(24.dp).width(24.dp))
+        }
+
+        Row(modifier = Modifier.fillMaxWidth()
+            .clickable(onClick = {onDetailClick(
+                "Take a selfie to preserve this failure for posterity", 3)}
+            ),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceEvenly){
+
+            Text("Selfie",
+                textAlign = TextAlign.Start,
+                fontSize = 24.sp)
+            Image(painterResource(R.drawable.arrow_icon),
+                "Clickable arrow",
+                modifier = Modifier.height(24.dp).width(24.dp))
+        }
     }
 }

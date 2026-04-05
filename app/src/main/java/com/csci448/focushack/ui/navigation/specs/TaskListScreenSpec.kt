@@ -1,8 +1,10 @@
 package com.csci448.focushack.ui.navigation.specs
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -11,11 +13,14 @@ import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
+import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
+import androidx.work.workDataOf
 import com.csci448.focushack.R
 import com.csci448.focushack.ui.newtask.NewTaskScreen
 import com.csci448.focushack.ui.tasklist.TaskScreen
+import com.csci448.focushack.ui.util.BackgroundTaskCheckWorker
 import com.csci448.focushack.ui.viewmodel.FocusHackViewModelFactory
 import com.csci448.focushack.ui.viewmodel.TaskViewModel
 import com.csci448.focushack.ui.viewmodel.intent.TaskIntent
@@ -46,16 +51,8 @@ data object TaskListScreenSpec : IScreenSpec {
         val (state, dispatcher, effects) = viewModel.use(navBackStackEntry)
 
         TaskScreen(taskList = state.taskList,
-            checkClicked = {bool, id-> dispatcher.invoke(TaskIntent.TaskComplete(bool, id))},
+            checkClicked = {bool, id-> dispatcher.invoke(TaskIntent.TaskComplete(bool, id))}
         )
-
-        WorkManager.getInstance(context).getWorkInfoByIdLiveData(state.workerID)
-            .observe(navBackStackEntry) { workInfo ->
-                if (workInfo?.state == WorkInfo.State.SUCCEEDED) {
-                    val punish = workInfo.outputData.getBoolean("punishTriggered", false)
-
-                }
-            }
     }
 
     @Composable

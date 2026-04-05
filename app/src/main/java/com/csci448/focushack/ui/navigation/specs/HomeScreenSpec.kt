@@ -53,8 +53,6 @@ data object HomeScreenSpec : IScreenSpec {
 
         val (state, dispatcher, effects) = viewModel.use(navBackStackEntry)
 
-        Log.d("CSCI448.HomeScreenSpec", "Compose: ${state.showUsageDialogue}")
-
         UsageDialog(
             showDialog = state.showUsageDialogue,
             onDismiss = { dispatcher(ConsequenceIntent.ToggleUsageDialogue) }

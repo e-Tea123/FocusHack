@@ -11,7 +11,6 @@ import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.csci448.focushack.ui.settingsscreen.ConsequencesScreen
-import com.csci448.focushack.ui.settingsscreen.SettingsScreen
 import com.csci448.focushack.ui.viewmodel.ConsequencesViewModel
 import com.csci448.focushack.ui.viewmodel.FocusHackViewModelFactory
 import com.csci448.focushack.ui.viewmodel.intent.ConsequenceIntent
@@ -50,6 +49,24 @@ object ConsequencesScreenSpec : IScreenSpec {
                         id = id
                     ))
                     Log.d("CSCI448.ConsequenceScreenSpec", "state enabled: ${state.consequenceNotificationSpamEnabled} vs ${state.detailEnabled}, detail: ${state.detailDetail}")
+                    navController.navigate(ConsequenceDetailScreenSpec.route)
+                }
+                (id == 2)->{
+                    dispatcher.invoke(ConsequenceIntent.setConsequenceDetails(
+                        enabled = state.consequenceMessageEnabled,
+                        detail = detail,
+                        onEnabledChange = ConsequenceIntent.consequenceMessageToggle,
+                        id = id
+                    ))
+                    navController.navigate(ConsequenceDetailScreenSpec.route)
+                }
+                (id == 3)->{
+                    dispatcher.invoke(ConsequenceIntent.setConsequenceDetails(
+                        enabled = state.consequenceSelfieEnabled,
+                        detail = detail,
+                        onEnabledChange = ConsequenceIntent.consequenceSelfieToggle,
+                        id = id
+                    ))
                     navController.navigate(ConsequenceDetailScreenSpec.route)
                 }
             }

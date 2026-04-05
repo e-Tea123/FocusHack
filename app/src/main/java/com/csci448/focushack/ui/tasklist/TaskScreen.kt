@@ -10,21 +10,28 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.csci448.focushack.data.entities.TaskData
 import com.csci448.focushack.ui.tasklist.components.TaskBlock
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Button
+import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.ui.unit.dp
 
 @Composable
 fun TaskScreen(taskList: List<TaskData>,
-               checkClicked:(Boolean, Int)->Unit){
-    LazyColumn(modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.spacedBy(12.dp)) {
-        items(items = taskList){item->
-            TaskBlock(taskName = item.taskName,
+               checkClicked:(Boolean, Int)->Unit) {
+    LazyColumn(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
+        items(items = taskList) { item ->
+            TaskBlock(
+                taskName = item.taskName,
                 goal = item.goal,
                 description = item.taskDescription,
                 finished = item.finished,
-                onCheckChanged = {bool-> checkClicked(bool, item.id)},
-                date = item.deadline)
+                onCheckChanged = { bool -> checkClicked(bool, item.id) },
+                date = item.deadline,
+                isExpired = item.isExpired
+            )
         }
     }
 }
@@ -32,5 +39,5 @@ fun TaskScreen(taskList: List<TaskData>,
 @Preview
 @Composable
 fun PreviewTaskList(){
-    TaskScreen(mutableListOf(), {bool, int->})
+    TaskScreen(mutableListOf(), {bool, int->}, )
 }

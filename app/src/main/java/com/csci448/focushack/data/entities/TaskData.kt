@@ -8,10 +8,11 @@ import java.util.Date
 
 @Entity(tableName = "tasks")
 @Serializable
-class TaskData(val taskName: String,
+data class TaskData(val taskName: String,
                val goal: String,
                val taskDescription: String,
                @PrimaryKey
                val id: Int,
                var finished: Boolean,
-               val deadline: Long)
+               val deadline: Long,
+               var isExpired: Boolean)

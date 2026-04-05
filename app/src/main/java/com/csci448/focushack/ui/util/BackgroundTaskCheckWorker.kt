@@ -17,34 +17,41 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 
 class BackgroundTaskCheckWorker(appContext: Context,
-                                workerParams: WorkerParameters,
-                                private val scope: CoroutineScope)
+                                workerParams: WorkerParameters)
     : CoroutineWorker(appContext, workerParams) {
 
     override suspend fun doWork(): Result {
-        var taskList = emptyList<TaskData>()
-        val tasks = TaskDatabase.getInstance(applicationContext).taskDao.getTasks().collectLatest { TaskList->
-            taskList = TaskList
+        val taskDateList = inputData.getLongArray("taskDateList")
+        val taskIdList = inputData.getIntArray("taskIdList")
+
+        if(taskDateList?.size != taskIdList?.size) Log.d("CSCI448.BackgroundTaskCheckWorker", "Error, mismatched arrays in worker")
+
+        if(taskIdList == null || taskDateList == null
+            || taskIdList.size == 0 || taskDateList.size == 0){
+            Log.d("CSCI448.BackgroundTaskCheckWorker", "No data, cancel worker")
+            return Result.success()
         }
 
-        var outputData: Data = workDataOf()
-        for(task in taskList){
-            if(task.deadline < System.currentTimeMillis()){
-                outputData = workDataOf(
-                    "name" to task.taskName,
-                    "dueDate" to task.deadline,
-                    "id" to task.id
-                )
+        Log.d("CSCI448.BackgroundTaskCheckWorker", "Worker run")
+        var outputData: Data
+        val IDs: MutableList<Int> = mutableListOf()
+        var idx = 0
+
+        for(date in taskDateList){
+            if(date < System.currentTimeMillis()){
+                IDs.add(taskIdList[idx])
             }
+            idx++
         }
-        return Result.success(outputData)
+        if(IDs.isNotEmpty()){
+            outputData = workDataOf(
+                "IDs" to IDs.toIntArray()
+            )
+            Log.d("CSCI448.BackgroundTaskCheckWorker", "$idx expired tasks found")
+            return Result.success(outputData)
+        } else {
+            Log.d("CSCI448.BackgroundTaskCheckWorker", "No expired tasks found")
+            return Result.success()
+        }
     }
-}
-
-suspend fun getTasks(context: Context): List<TaskData>{
-    var TaskList: List<TaskData> = emptyList()
-    val tasks = TaskDatabase.getInstance(context).taskDao.getTasks().collectLatest { taskList->
-        TaskList = taskList
-    }
-    return TaskList
 }

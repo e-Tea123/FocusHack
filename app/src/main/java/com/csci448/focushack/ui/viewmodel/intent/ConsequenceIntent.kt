@@ -1,7 +1,5 @@
 package com.csci448.focushack.ui.viewmodel.intent
 
-import com.csci448.focushack.ui.viewmodel.effect.FocusHackEffect
-
 sealed class ConsequenceIntent : FocusHackIntent() {
     object ToggleFocus : ConsequenceIntent()
     object ToggleUsageDialogue: ConsequenceIntent()
@@ -13,4 +11,6 @@ sealed class ConsequenceIntent : FocusHackIntent() {
         val onEnabledChange: ConsequenceIntent,
         val id: Int) : ConsequenceIntent()
     object consequenceNotifToggle : ConsequenceIntent()
+    object consequenceMessageToggle: ConsequenceIntent()
+    object consequenceSelfieToggle : ConsequenceIntent()
 }

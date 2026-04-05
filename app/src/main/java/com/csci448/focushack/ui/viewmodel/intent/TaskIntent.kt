@@ -1,5 +1,8 @@
 package com.csci448.focushack.ui.viewmodel.intent
 
+import android.content.Context
+import kotlinx.serialization.Contextual
+
 sealed class TaskIntent : FocusHackIntent() {
     data class TaskComplete(val value: Boolean,
                             val id: Int) : TaskIntent()

@@ -9,11 +9,12 @@ import java.util.UUID
 @Serializable
 data class TaskState(val taskList: List<TaskData> = mutableStateListOf(),
                      val newTask: TaskData = TaskData("",
-        "",
-        "",
-        0,
-        false,
-        0L),
+                         "",
+                         "",
+                         0,
+                         false,
+                         0L,
+                         isExpired = false),
                      @Transient
                      val workerID: UUID = UUID.randomUUID()
 ) : FocusHackState
