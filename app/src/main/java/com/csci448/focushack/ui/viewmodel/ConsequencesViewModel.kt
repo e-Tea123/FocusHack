@@ -1,5 +1,6 @@
 package com.csci448.focushack.ui.viewmodel
 
+import android.content.Intent
 import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -78,11 +79,13 @@ internal constructor(
             is ConsequenceIntent.consequenceNotifToggle -> {
                 viewModelScope.launch {
                     _stateFlow.update { state ->
-                        _savedState = state.copy(consequenceNotificationSpamEnabled = !state.consequenceNotificationSpamEnabled)
-                        Log.d("CSCI448.ConsequenceVM", "notifSpamEnabled: ${state.consequenceNotificationSpamEnabled}")
+                        val newList: List<Boolean> = state.consequencesEnabled.mapIndexed { idx, value->
+                            if(idx == 0) !value
+                            else value
+                        }
+                        _savedState = state.copy(consequencesEnabled = newList.toMutableList())
                         if(state.detailID == 1){
-                            Log.d("CSCI448.ConsequenceVM", "reassign detailEnabled")
-                            _savedState = state.copy(consequenceNotificationSpamEnabled = !state.consequenceNotificationSpamEnabled,
+                            _savedState = state.copy(consequencesEnabled = newList.toMutableList(),
                                 detailEnabled = !state.detailEnabled)
                         }
                         _savedState
@@ -92,9 +95,13 @@ internal constructor(
             is ConsequenceIntent.consequenceMessageToggle -> {
                 viewModelScope.launch {
                     _stateFlow.update { state ->
-                        _savedState = state.copy(consequenceMessageEnabled = !state.consequenceMessageEnabled)
-                        if(state.detailID == 2){
-                            _savedState = state.copy(consequenceMessageEnabled = !state.consequenceMessageEnabled,
+                        val newList: List<Boolean> = state.consequencesEnabled.mapIndexed { idx, value->
+                            if(idx == 1) !value
+                            else value
+                        }
+                        _savedState = state.copy(consequencesEnabled = newList.toMutableList())
+                        if(state.detailID == 1){
+                            _savedState = state.copy(consequencesEnabled = newList.toMutableList(),
                                 detailEnabled = !state.detailEnabled)
                         }
                         _savedState
@@ -104,9 +111,13 @@ internal constructor(
             is ConsequenceIntent.consequenceSelfieToggle -> {
                 viewModelScope.launch {
                     _stateFlow.update { state ->
-                        _savedState = state.copy(consequenceSelfieEnabled = !state.consequenceSelfieEnabled)
-                        if(state.detailID == 3){
-                            _savedState = state.copy(consequenceSelfieEnabled = !state.consequenceSelfieEnabled,
+                        val newList: List<Boolean> = state.consequencesEnabled.mapIndexed { idx, value->
+                            if(idx == 2) !value
+                            else value
+                        }
+                        _savedState = state.copy(consequencesEnabled = newList.toMutableList())
+                        if(state.detailID == 1){
+                            _savedState = state.copy(consequencesEnabled = newList.toMutableList(),
                                 detailEnabled = !state.detailEnabled)
                         }
                         _savedState

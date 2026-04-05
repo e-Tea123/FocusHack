@@ -16,7 +16,7 @@ data class ConsequenceState(
     var detailOnEnabledChange: ConsequenceIntent = ConsequenceIntent.ToggleUsageDialogue,
     var detailID: Int = 0,
 
-    var consequenceNotificationSpamEnabled: Boolean = true,
-    var consequenceMessageEnabled: Boolean = true,
-    var consequenceSelfieEnabled: Boolean = true
+    var consequencesEnabled: MutableList<Boolean> = mutableListOf(true, true, true),
+
+    var launchConsequence: Int = 0
 ) : FocusHackState

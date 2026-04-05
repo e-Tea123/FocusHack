@@ -43,17 +43,17 @@ object ConsequencesScreenSpec : IScreenSpec {
             when{
                 (id == 1)->{
                     dispatcher.invoke(ConsequenceIntent.setConsequenceDetails(
-                        enabled = state.consequenceNotificationSpamEnabled,
+                        enabled = state.consequencesEnabled[0],
                         detail = detail,
                         onEnabledChange = ConsequenceIntent.consequenceNotifToggle,
                         id = id
                     ))
-                    Log.d("CSCI448.ConsequenceScreenSpec", "state enabled: ${state.consequenceNotificationSpamEnabled} vs ${state.detailEnabled}, detail: ${state.detailDetail}")
+
                     navController.navigate(ConsequenceDetailScreenSpec.route)
                 }
                 (id == 2)->{
                     dispatcher.invoke(ConsequenceIntent.setConsequenceDetails(
-                        enabled = state.consequenceMessageEnabled,
+                        enabled = state.consequencesEnabled[1],
                         detail = detail,
                         onEnabledChange = ConsequenceIntent.consequenceMessageToggle,
                         id = id
@@ -62,7 +62,7 @@ object ConsequencesScreenSpec : IScreenSpec {
                 }
                 (id == 3)->{
                     dispatcher.invoke(ConsequenceIntent.setConsequenceDetails(
-                        enabled = state.consequenceSelfieEnabled,
+                        enabled = state.consequencesEnabled[2],
                         detail = detail,
                         onEnabledChange = ConsequenceIntent.consequenceSelfieToggle,
                         id = id

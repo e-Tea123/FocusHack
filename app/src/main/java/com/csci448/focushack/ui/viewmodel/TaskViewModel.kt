@@ -22,6 +22,7 @@ import com.csci448.focushack.data.TaskDatabase
 import com.csci448.focushack.data.entities.TaskData
 import com.csci448.focushack.data.repos.TaskRepo
 import com.csci448.focushack.ui.util.BackgroundTaskCheckWorker
+import com.csci448.focushack.ui.util.PunishTime
 import com.csci448.focushack.ui.viewmodel.effect.TaskEffect
 import com.csci448.focushack.ui.viewmodel.intent.TaskIntent
 import com.csci448.focushack.ui.viewmodel.state.TaskState
@@ -112,7 +113,9 @@ internal constructor(
                         Log.d("CSCI448.TaskVM", "WorkInfo Succeeded")
                         Log.d("CSCI448.TaskVM", "WorkInfo Succeeded")
                         val IDs = workInfo.outputData.getIntArray("IDs")
+
                         if (IDs != null) {
+                            PunishTime.PunishUser = IDs.isNotEmpty()
                             Log.d("CSCI448.TaskVM", "Task(s) expired: ${IDs.size}")
                             for (id in IDs) {
                                tasks.forEachIndexed {idx, task->
