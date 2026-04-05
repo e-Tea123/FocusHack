@@ -1,6 +1,7 @@
 package com.csci448.focushack.ui.tasklist
 
 import android.util.Log
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
@@ -10,11 +11,13 @@ import com.csci448.focushack.data.entities.TaskData
 import com.csci448.focushack.ui.tasklist.components.TaskBlock
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.TextField
+import androidx.compose.ui.unit.dp
 
 @Composable
 fun TaskScreen(taskList: List<TaskData>,
-                   checkClicked:(Boolean, Int)->Unit){
-    LazyColumn(modifier = Modifier.fillMaxSize()) {
+               checkClicked:(Boolean, Int)->Unit){
+    LazyColumn(modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.spacedBy(12.dp)) {
         items(items = taskList){item->
             TaskBlock(taskName = item.taskName,
                 goal = item.goal,

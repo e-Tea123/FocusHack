@@ -48,6 +48,48 @@ internal constructor(
                     }
                 }
             }
+            is ConsequenceIntent.ToggleUsageDialogue -> {
+                viewModelScope.launch {
+                    _stateFlow.update { state ->
+                        _savedState = state.copy(showUsageDialogue = !state.showUsageDialogue)
+                        _savedState
+                    }
+                }
+            }
+            is ConsequenceIntent.onNotificationChange -> {
+                viewModelScope.launch {
+                    _stateFlow.update { state ->
+                        _savedState = state.copy(notificationsEnabled = intent.newValue)
+                        _savedState
+                    }
+                }
+            }
+            is ConsequenceIntent.setConsequenceDetails -> {
+                viewModelScope.launch {
+                    _stateFlow.update { state ->
+                        _savedState = state.copy(
+                            detailDetail = intent.detail,
+                            detailEnabled = intent.enabled,
+                            detailOnEnabledChange = intent.onEnabledChange,
+                            detailID = intent.id)
+                        _savedState
+                    }
+                }
+            }
+            is ConsequenceIntent.consequenceNotifToggle -> {
+                viewModelScope.launch {
+                    _stateFlow.update { state ->
+                        _savedState = state.copy(consequenceNotificationSpamEnabled = !state.consequenceNotificationSpamEnabled)
+                        Log.d("CSCI448.ConsequenceVM", "notifSpamEnabled: ${state.consequenceNotificationSpamEnabled}")
+                        if(state.detailID == 1){
+                            Log.d("CSCI448.ConsequenceVM", "reassign detailEnabled")
+                            _savedState = state.copy(consequenceNotificationSpamEnabled = !state.consequenceNotificationSpamEnabled,
+                                detailEnabled = !state.detailEnabled)
+                        }
+                        _savedState
+                    }
+                }
+            }
 
             else -> {}
         }

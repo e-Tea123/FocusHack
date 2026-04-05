@@ -17,11 +17,11 @@ import kotlin.time.Instant
 
 @Composable
 fun TaskBlock(taskName: String,
-         goal: String,
-         description: String,
-         finished: Boolean,
+              goal: String,
+              description: String,
+              finished: Boolean,
               date: Long,
-         onCheckChanged:(Boolean)->Unit){
+              onCheckChanged:(Boolean)->Unit){
     Row() {
         Column(
             Modifier.Companion.weight(.8f),

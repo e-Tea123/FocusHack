@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">FocusHack</string>
+    <string name="usage_access_permission_dialog">This app needs usage access to detect blocked apps. You will need to enable permission in the system settings; this will allow the app to access data on app usage history. This permission is used for focus mode, to block access to entertainment apps, this feature will be unavailable without the permission.</string>
 </resources>

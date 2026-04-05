@@ -88,7 +88,7 @@ sealed interface IScreenSpec {
                         "Timer Icon"
                     )
                 }
-                IconButton(onClick = {}) {
+                IconButton(onClick = {navController.navigate(SettingsScreenSpec.route)}) {
                     Image(
                         painterResource(R.drawable.settings_icon),
                         "Settings Icon"

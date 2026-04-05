@@ -11,6 +11,8 @@ import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
+import androidx.work.WorkInfo
+import androidx.work.WorkManager
 import com.csci448.focushack.R
 import com.csci448.focushack.ui.newtask.NewTaskScreen
 import com.csci448.focushack.ui.tasklist.TaskScreen
@@ -46,6 +48,14 @@ data object TaskListScreenSpec : IScreenSpec {
         TaskScreen(taskList = state.taskList,
             checkClicked = {bool, id-> dispatcher.invoke(TaskIntent.TaskComplete(bool, id))},
         )
+
+        WorkManager.getInstance(context).getWorkInfoByIdLiveData(state.workerID)
+            .observe(navBackStackEntry) { workInfo ->
+                if (workInfo?.state == WorkInfo.State.SUCCEEDED) {
+                    val punish = workInfo.outputData.getBoolean("punishTriggered", false)
+
+                }
+            }
     }
 
     @Composable

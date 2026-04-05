@@ -1,6 +1,7 @@
 package com.csci448.focushack.ui.navigation.specs
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -15,11 +16,10 @@ import com.csci448.focushack.ui.viewmodel.ConsequencesViewModel
 import com.csci448.focushack.ui.viewmodel.FocusHackViewModelFactory
 import com.csci448.focushack.ui.viewmodel.intent.ConsequenceIntent
 
-
-object SettingsScreenSpec : IScreenSpec {
-    override val route = "settings"
+object ConsequencesScreenSpec : IScreenSpec {
+    override val route = "consequences"
     override val arguments: List<NamedNavArgument> = emptyList()
-    override val title = "Settings"
+    override val title = "Consequences"
 
     @SuppressLint("UnrememberedGetBackStackEntry")
     @Composable
@@ -40,9 +40,20 @@ object SettingsScreenSpec : IScreenSpec {
 
         val (state, dispatcher, effects) = viewModel.use(navBackStackEntry)
 
-        SettingsScreen(state.notificationsEnabled,
-            {newVal-> dispatcher.invoke(ConsequenceIntent.onNotificationChange(newVal))},
-            onConsequenceClick = {navController.navigate(ConsequencesScreenSpec.route)})
+        ConsequencesScreen(onDetailClick = {detail, id->
+            when{
+                (id == 1)->{
+                    dispatcher.invoke(ConsequenceIntent.setConsequenceDetails(
+                        enabled = state.consequenceNotificationSpamEnabled,
+                        detail = detail,
+                        onEnabledChange = ConsequenceIntent.consequenceNotifToggle,
+                        id = id
+                    ))
+                    Log.d("CSCI448.ConsequenceScreenSpec", "state enabled: ${state.consequenceNotificationSpamEnabled} vs ${state.detailEnabled}, detail: ${state.detailDetail}")
+                    navController.navigate(ConsequenceDetailScreenSpec.route)
+                }
+            }
+        })
     }
 
     @Composable

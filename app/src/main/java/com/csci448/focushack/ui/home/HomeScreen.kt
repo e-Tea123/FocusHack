@@ -13,11 +13,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.sp
 
 @Composable
 fun HomeScreen(taskButtonClicked:()-> Unit,
                focusButtonClicked:()-> Unit,
                focusEnabled: Boolean){
+
     Column(modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceEvenly) {
@@ -29,20 +31,20 @@ fun HomeScreen(taskButtonClicked:()-> Unit,
         if(!focusEnabled) {
             Button(
                 onClick = focusButtonClicked,
-                modifier = Modifier.fillMaxWidth(.5f)
-                    .fillMaxHeight(.1f)
+                modifier = Modifier.fillMaxWidth(.55f)
+                    .fillMaxHeight(.15f)
             ) {
-                Text("Focus")
+                Text("Focus", fontSize = 45.sp)
             }
         }
         else{
             Button(
                 onClick = focusButtonClicked,
-                modifier = Modifier.fillMaxWidth(.5f)
-                    .fillMaxHeight(.1f),
+                modifier = Modifier.fillMaxWidth(.55f)
+                    .fillMaxHeight(.15f),
                 colors = ButtonColors(Color.Gray, Color.Black, Color.Gray, Color.Gray)
             ) {
-                Text("Disable Focus")
+                Text("Disable Focus", fontSize = 45.sp)
             }
         }
     }

@@ -1,12 +1,22 @@
 package com.csci448.focushack.ui.viewmodel
 
+import android.content.Context
 import android.util.Log
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.serialization.saved
 import androidx.lifecycle.viewModelScope
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.PeriodicWorkRequest
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkInfo
+import androidx.work.WorkManager
+import androidx.work.workDataOf
 import com.csci448.focushack.data.entities.TaskData
 import com.csci448.focushack.data.repos.TaskRepo
+import com.csci448.focushack.ui.util.BackgroundTaskCheckWorker
 import com.csci448.focushack.ui.viewmodel.effect.TaskEffect
 import com.csci448.focushack.ui.viewmodel.intent.TaskIntent
 import com.csci448.focushack.ui.viewmodel.state.TaskState
@@ -19,18 +29,20 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.util.concurrent.TimeUnit
 
 class TaskViewModel
 internal constructor(
     private val taskRepo: TaskRepo,
-    savedStateHandle: SavedStateHandle
+    savedStateHandle: SavedStateHandle,
+    context: Context
 ) : ViewModel(), IViewModelContract<TaskState, TaskIntent, TaskEffect> {
 
     private var _savedState: TaskState by savedStateHandle.saved(
         key = "SAVED_CARD_STATE",
         init = { TaskState() }
     )
-    private var idx: Int = 10
+    private var idx: Int = 0
 
     init {
         viewModelScope.launch {
@@ -52,6 +64,15 @@ internal constructor(
                 }
             }
         }
+
+        val workRequest = PeriodicWorkRequestBuilder<BackgroundTaskCheckWorker>(120, TimeUnit.MINUTES)
+            .build()
+        WorkManager.getInstance(context).enqueueUniquePeriodicWork(
+            "checkTasksWorker", // unique name
+            ExistingPeriodicWorkPolicy.KEEP, // KEEP = don’t replace existing
+            request = workRequest
+        )
+        _savedState = _savedState.copy(workerID = workRequest.id)
     }
     private val _stateFlow: MutableStateFlow<TaskState> = MutableStateFlow(_savedState)
     override val stateFlow: StateFlow<TaskState> = _stateFlow.asStateFlow()
@@ -127,7 +148,7 @@ internal constructor(
                                 state.newTask.taskDescription,
                                 idx,
                                 state.newTask.finished,
-                                intent.newDate
+                                intent.newDate + 40000000
                             )
                             _savedState = state.copy(newTask = newData)
                             _savedState

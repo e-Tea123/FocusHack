@@ -31,7 +31,8 @@ class FocusHackViewModelFactory : ViewModelProvider.Factory {
                     val savedStateHandle = extras.createSavedStateHandle()
                     TaskViewModel(
                         taskRepo = TaskRepo.getInstance(context),
-                        savedStateHandle = savedStateHandle
+                        savedStateHandle = savedStateHandle,
+                        context
                     )
                 }
                 isAssignableFrom(ConsequencesViewModel::class.java) ->{
